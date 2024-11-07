@@ -1,0 +1,74 @@
+/* CSS MODULES */
+
+.div {
+    width: 100%; /* Ahora ocupa el 100% del contenedor */
+    max-width: 160px; /* Limita el ancho máximo para adaptarse a la cuadrícula */
+    margin: 10px;
+    border-radius: 60px;
+    border: 2px solid #000000;
+    margin-top: 70px;
+    background: radial-gradient(rgba(255, 255, 255, 0.5), rgb(185, 185, 185, 0.5));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.div2 {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre los elementos */
+    align-items: center; /* Alinea los elementos verticalmente en el centro */
+    
+}
+
+
+/* Para el boton de Favorito */
+.button0 {
+    margin-top: 2px;
+    margin-right: 2%;
+    color: black;
+    background-color: transparent;
+    font-size: 1.2rem;
+    border-color: transparent;
+}
+.button0:hover {
+    font-size: 1.5rem;
+    margin-top: 3px;
+    margin-right: 7.4%;
+}
+
+/* Para el boton X */
+.button1 {
+    background-color:transparent;
+    margin-top: 2px;
+    margin-left: 2%;
+    border-color: transparent;
+    color: rgb(255, 0, 0);
+    font-weight: bolder;
+    font-size: 1.4rem;
+}
+
+.button1:hover {
+    font-size: 1.6rem;
+    margin-top: 6px;
+    margin-left: 9%;
+}
+
+.button2 {
+    margin-top: 10px;
+    color: black;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    font-family: 'Creepster', cursive;
+ }
+
+.h2 {
+   color: black;
+   font-size: 1.2rem;
+}
+
+.img {
+   width: 90%;
+   margin: 2px;
+   border-radius: 60px;
+   border: 2px solid #000000;
+}

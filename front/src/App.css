@@ -1,0 +1,16 @@
+/* CSS MODULES */
+
+body {
+   font-family: 'Creepster', cursive;
+   margin: 0;
+}
+
+.App {
+   text-align: center;
+   background-image:url('../src/Img/RandM1.jpg');
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: 20%;
+   background-attachment: fixed; /* Fija la imagen de fondo */
+   min-height: 100vh; /* Permite que el fondo cubra toda la pantalla */
+}

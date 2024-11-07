@@ -1,0 +1,37 @@
+.div {
+    margin: 20% auto;
+    width: 60%;
+    height: 40%;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    background-color: rgba(0, 0, 0, 0.15);
+    color: transparent;
+    background-color: transparent;
+  }
+
+  .inicio {
+    font-size: 100px;
+    display: inline-block;
+    position: relative;
+    color: #000000;
+    text-decoration: none;
+    transition: all .5s ease;
+    transform-style: preserve-3d;
+    }
+  
+  .inicio:after {
+    content: "NOW";
+    position: absolute;
+    top: -100%;
+    left: 0px;
+    width: 100%;
+    /* background: #ccc; */
+    transform-origin: left bottom;
+    transform: rotateX(90deg);
+    }
+  
+  .inicio:hover {
+    transform-origin: center bottom;
+    transform: rotateX(-90deg) translateY(100%);
+    }

@@ -1,0 +1,53 @@
+/* Contenedor principal */
+.div1 {
+   display: flex;
+   flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+   justify-content: center;
+   gap: 10px; /* Espacio entre las tarjetas */
+   padding: 20px;
+}
+
+.cardContainer {
+   display: flex;
+   flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+   justify-content: center;
+   gap: 10px; /* Espacio entre las tarjetas */
+   padding: 20px;
+}
+
+/* Filtros y orden */
+.div2 {
+   position: fixed;
+   top: 12%; /* Ajusta el margen superior */
+   right: 2%; /* Ajusta el margen derecho */
+   display: flex;
+}
+
+/* Estilo de los selects */
+.select1 {
+   font-family: 'Creepster', cursive;
+   background-color: transparent;
+   font-weight: bold;
+   border: 1px solid transparent;
+   text-align: right;
+   font-size: large;
+   outline: none;
+}
+
+.select1:focus {
+   background-color: transparent;
+   border-color: transparent;
+   outline: none;
+}
+
+/* Mensaje cuando no hay favoritos */
+.div3 {
+   display: flex;
+   justify-content: center;
+   margin-top: 18%;
+}
+
+.let {
+   font-size: 6ch;
+   color: rgb(0, 0, 0);
+}
