@@ -3,7 +3,10 @@
 // EXPRESS --> Es un framework web para NODE.JS 
 // ASYNC AWAIT
 
-// PARA CONSEGUIR LOS PRIMEROS 100 PERSONAJES DE LA API
+// ----------------------------------------------------------------------------------------
+// PARA CONSEGUIR LOS PRIMEROS 100 PERSONAJES DE LA API Y 
+// GUARDARLOS EN LA BASE DE DATOS LOCAL DE POSTGRESQL
+// ----------------------------------------------------------------------------------------
 
 const axios = require('axios');
 

@@ -5,6 +5,10 @@ body {
    margin: 0;
 }
 
+body::-webkit-scrollbar {
+   display: none; /* Para que la barra de scroll está oculta */
+ }
+
 .App {
    text-align: center;
    background-image:url('../src/Img/RandM1.jpg');
