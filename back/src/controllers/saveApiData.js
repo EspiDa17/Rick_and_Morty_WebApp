@@ -81,7 +81,7 @@ const saveApiData = async () => {
     } 
     catch (error) {
         console.log('Hubo un problema al cargar en la BD');
-        console.log("---------------------------------------------------------------");
+        console.log("----------------------------------------------------------------");
         return {error: error.message};
     }
 }
