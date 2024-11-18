@@ -1,22 +1,23 @@
 const { saveApiData } = require('../controllers/saveApiData.js'); 
 
-// Se destructura porque es un objeto
-const { sequelize } = require('../DB_connection.js');
-
 // Para hacer las peticioes desde el front
 const { router } = require('../routes/index.js'); 
 
 // EXPRESS --> Creación de servidores y peticiones a rutas
 const express = require('express');
-const cors = require('cors'); 
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const favoritesFilePath = path.join(__dirname, '/Favorites.json');
 
 //EXPRESS --> Creo el servidor con express y el puerto donde va a estar
 const server = express(); 
 const PORT = 3006; 
 
-// Para los métodos del POST
+// Para los métodos del POST - Configuración de middleware
 server.use(express.json());
 server.use(cors());
+
 
 // Configuración del cors --> Para que la ruta(3005) haga peticiones desde la APP del front
 server.use((req, res, next) => {
@@ -34,28 +35,54 @@ server.use((req, res, next) => {
 // EXPRESS --> 
 server.use('/rickandmorty', router)
 
+// Ruta principal para obtener la data desde el archivo `data.json`
+server.get('/rickandmorty/characters', (req, res) => {
+   try {
+       const filePath = path.resolve(__dirname, '../Data.json');
+       const data = fs.readFileSync(filePath, 'utf-8');
+       const characters = JSON.parse(data);
+       res.status(200).json(characters);
+   } catch (error) {
+       console.error('Error al leer el archivo data.json:', error.message);
+       res.status(500).send('Error al leer la información de personajes.');
+   }
+});
 
 
+// Inicializar la data y levantar el servidor
+// Verifica si el archivo ya contiene datos antes de ejecutarlo
+(async () => {
+   const filePath = path.resolve(__dirname, '../Data.json');
+
+   if (!fs.existsSync(filePath) || fs.readFileSync(filePath, 'utf-8') === '[]') {
+       console.log('Guardando datos iniciales en Data.json...');
+       await saveApiData();
+   } else {
+       console.log('El archivo Data.json ya contiene datos. No es necesario volver a guardarlos.');
+   }
+
+   server.listen(PORT, () => {
+        console.log(`El servidor está escuchando por el puerto: ${PORT}`);
+        console.log("----------------------------------------------------------------");
+   });
+})();
 
 
-// SEQUELIZE --> Sincronzación de los modelos a la BD y luego levantamos el servidor
-// force: true --> Cuando se baje el back se van a borrar los registros y cuando se vuelva a subir
-//                 vamos a tener nuevos campos para agregar
-// async await --> Porque 'saveApiData' es asíncrona
-sequelize.sync({force: true}).then(async () => {
-    
-   // Est función se ejecuta de manera asincrónica para hacer el consumo de la API
-   // y luego guardar esta información en la BD
-   await saveApiData();
-    
-    // EXPRESS --> 
-    // Listen --> Inicia el servidor HTTP y escucha las solicitudes para enviar 
-    //            las respectivas respuestas
-    server.listen(PORT, () => {
-       console.log('El servidor está escuchando por el puerto: ' + PORT);
-       console.log("----------------------------------------------------------------");
+// Función para borrar el contenido de Favorites.json
+const clearFavoritesFile = () => {
+    fs.writeFile(favoritesFilePath, JSON.stringify([]), (err) => {
+        if (err) {
+            console.log("Error al borrar el archivo de favoritos:", err);
+        } else {
+            console.log("Contenido de Favorites.json borrado al iniciar el servidor.");
+        }
     });
- })
+};
+
+// Llamar a la función al levantar el servidor
+//clearFavoritesFile();
+
+
 
  //------------------------------------------------------------------------------------------------------------------------
 //                                      CONFIGURACIÓN DEL MIDDLEWARE PARA MANEJO DE ERRORES               

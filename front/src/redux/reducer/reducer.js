@@ -1,4 +1,4 @@
-import { DELETE_FAVORITE, ADD_FAVORITE, FILTER,ORDER } from "../actions/types.js";
+import { DELETE_FAVORITE, ADD_FAVORITE, FILTER, ORDER } from "../actions/types.js";
 
 const initialState = {
   allCharacters: [],
@@ -12,18 +12,9 @@ const initialState = {
 
 // state --> Guarda toda la información de nuestra app
 // type, payload --> Acción 
-function rootReducer(state = initialState, { type, payload }) {
+function rootReducer(state = initialState, { type, payload, action }) {
   switch (type) {
     
-    // case ADD_FAVORITE:
-    //   return {
-    //     // Spread operator --> Devuelve una copia del estado
-    //     ...state,
-    //     // Traeme todos los caracteres que hay en el estado y le agrega 
-    //     // el nuevo personaje favorito
-    //     allCharacters:[...state.allCharacters, payload],
-    //     myFavorites: [...state.allCharacters, payload],
-    //   };
 
     case ADD_FAVORITE:
       return {
@@ -32,21 +23,11 @@ function rootReducer(state = initialState, { type, payload }) {
       };
 
 
-    // case DELETE_FAVORITE:
-    //   return {
-    //       ...state,
-    //       myFavorites: state.myFavorites.filter(fav => fav.id !== payload)
-    //   };
-
     case DELETE_FAVORITE:
-      // filter (elemento del arreglo => los elementos cuyo id sea !== al payload)
-      // o sea me va a dejar todos excepto el que quite de favoritos
-      const filtered = state.myFavorites.filter((fav) => fav.id !== payload);
-      return {
-        // Spread operator --> Devuelve una copia del estado
-        ...state,
-        allCharacters: filtered,
-        myFavorites: filtered
+        // Filtrar los favoritos en el estado global eliminando el personaje con el id dado
+        return {
+            ...state,
+            myFavorites: state.myFavorites.filter(fav => fav.id !== payload)
       };
 
 
@@ -64,16 +45,18 @@ function rootReducer(state = initialState, { type, payload }) {
 
     case ORDER:
       const orderCopy = [...state.allCharacters];
-      console.log(state.allCharacters)
-
-      const order = orderCopy.sort((a,b) => {
-        if(a.id > b.id){
-          return payload === "Ascendente" ? 1 : -1
+      console.log(state.allCharacters);
+    
+      const order = orderCopy.sort((a, b) => {
+        if (a.id > b.id) {
+          return payload === "Ascendente" ? 1 : -1;
         }
-        if(a.id < b.id){
-          return payload === "Ascendente" ? -1 : 1
+        if (a.id < b.id) {
+          return payload === "Ascendente" ? -1 : 1;
         }
+        return 0; // Manejo del caso en el que a.id === b.id
       });
+    
       return {
         // Spread operator --> Devuelve una copia del estado
         ...state,
@@ -88,6 +71,14 @@ function rootReducer(state = initialState, { type, payload }) {
         ...state,
         allCharacters:payload,
         myFavorites:payload
+      };
+
+
+
+    case "CLEAR_FAVORITES":
+      return {
+        ...state,
+        myFavorites: [], // Limpia el estado de favoritos
       };
     
     

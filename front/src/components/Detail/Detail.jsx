@@ -32,11 +32,11 @@ export default function Detail(){
             if (char.name) {
               setCharacter(char);
             } else {
-              window.alert("No hay personajes con ese ID 10");
+              window.alert("No hay personajes con ese ID");
             }
           })
           .catch((err) => {
-            window.alert("No hay personajes con ese ID 20");
+            window.alert("No hay personajes con ese ID");
           });
         return setCharacter({});
     }, [detailId]);

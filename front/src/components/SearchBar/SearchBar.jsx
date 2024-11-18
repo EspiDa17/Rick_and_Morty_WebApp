@@ -19,10 +19,6 @@ export default function SearchBar(props) {
 
    // REACT - ESTADOS DE LOS COMPONENTES - Función que me setea el estado
    const handleChange = (e) => {
-      //Opción 1:
-      // setCharacter({
-      //    character: e.target.value
-      // })
 
       //Opción 2:
       const { value } = e.target
@@ -31,7 +27,7 @@ export default function SearchBar(props) {
 
    return (
       <div>
-         <input className={style.input} type='search' placeholder='Search character' onChange={handleChange}/>
+         <input className={style.input} type='search' placeholder='1 - 100' onChange={handleChange}/>
          <button className={style.button} onClick={() => props.onSearch(character)}>Add</button>
       </div>
    );

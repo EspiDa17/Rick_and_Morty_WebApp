@@ -9,9 +9,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store/store.js';
 
-// Define el puerto, 3000 como valor por defecto
-const port = process.env.PORT || 3000; 
-
 // ReactDOM.render --> Método de REACT que se utiliza para renderizar un 
 //                     componente de REACT en el DOM (Document Object Model)
 //                     de una página web
@@ -30,9 +27,3 @@ ReactDOM.render(
   </Provider>
   ,document.getElementById('root')
 )
-
-
-// Inicia el servidor en el puerto especificado
-App.listen(port, () => {
-  console.log(`Frontend server running on port ${port}`);
-});

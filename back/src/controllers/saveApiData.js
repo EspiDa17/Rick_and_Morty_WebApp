@@ -3,15 +3,20 @@
 // EXPRESS --> Es un framework web para NODE.JS 
 // ASYNC AWAIT
 
+
+
 // ----------------------------------------------------------------------------------------
 // PARA CONSEGUIR LOS PRIMEROS 100 PERSONAJES DE LA API Y 
-// GUARDARLOS EN LA BASE DE DATOS LOCAL DE POSTGRESQL
+// GUARDARLOS EN EL ARCHIVO DATA
 // ----------------------------------------------------------------------------------------
 
+// Requerimos fs para manejar archivos
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 
-// SEQUELIZE --> Requiero conectarme con la BD con e modelo "Character"
-const { Character } = require('../DB_connection.js')
+// Definimos la ruta del archivo donde guardaremos los datos
+const dataFilePath = path.join(__dirname, '../Data.json');
 
 // SIEMPRE QUE CONSULTEMOS A BASES DE DATOS O HAGAMOS PETICIONES A API's
 // HAY PROMESAS --> FUNCIONES ASINCRONAS
@@ -63,24 +68,26 @@ const getApiData = async () => {
 
 }
 
-//getApiData()
 
-// Es para guardar la info que trea la función 'getApiData' en la BD
+// Guardar los datos obtenidos en un archivo JSON
 // Esta función es asíncrona porque espera a que se ejecute le función 'getApiData'
 const saveApiData = async () => {
     try {
         
         const characterAll = await getApiData();
 
-        // Método asíncrono
-        // bulkCreate --> Agregar todos(100) los personajes a la BD
-        await Character.bulkCreate(characterAll);
-        console.log('Se realizó el registro en la BD');
+        // Convertimos los datos en un string JSON
+        const jsonData = JSON.stringify(characterAll, null, 2);
+
+        // Guardamos los datos en un archivo llamado Data.json
+        fs.writeFileSync(dataFilePath, jsonData);
+        
+        console.log('Se guardaron los datos en Data.json');
         console.log("----------------------------------------------------------------");
 
     } 
     catch (error) {
-        console.log('Hubo un problema al cargar en la BD');
+        console.log('Hubo un problema al guardar en Data.json');
         console.log("----------------------------------------------------------------");
         return {error: error.message};
     }

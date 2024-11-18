@@ -9,7 +9,6 @@ import Navbar from './components/Navbar/Navbar.jsx'
 import About from './components/About/About';
 import Detail from './components/Detail/Detail';
 import Error from './components/Error/Error';
-// import Form from './components/Form/Form';
 import Favorites from './components/Favorites/Favorites';
 import Inicio from './components/Inicio/Inicio.jsx';
 
@@ -21,56 +20,73 @@ function App () {
   const navigate = useNavigate();
   
   //Estado(Memoria) para el componente
+  const [favoritesCleared, setFavoritesCleared] = useState(false);
   const [characters, setCharacters] = useState([]);
 
   //Estado de acceso
-  const [access, setAccess] = useState(true); //Si voy a ativar nuevamente lo del login debo de ponerlo en false
-  
-  // Base de datos
-  // const username = 'danieles095@outlook.es';
-  // const password = '1234';
+  const [access] = useState(true); //Si voy a ativar nuevamente lo del login debo de ponerlo en false
 
-  // Verifica que el usuario si corresponda al de la base de datos - si corresponde nos lleva a home
-  // function login(userData){
-  //   if (userData.password === password && userData.username === username) {
-  //     setAccess(true);
-  //     navigate('/home');
-  //   }
-  //   else { 
-  //     alert ("How are you?")
-  //   }
-  // }
 
-  // Cuando busco un caracter desde el front me hace un apetición al servidor
-  const onSearch = (character) => {
-    // Esta es la ruta del serivor 
-    fetch(`http://localhost:3006/rickandmorty/onsearch/${character}`)
-      .then((response) => response.json())
-      .then((data) => {
-         if (data.name) {
-            console.log(data);
-            setCharacters((oldChars) => [...oldChars, data]);
-         } else {
-            window.alert('No hay personajes con ese ID');
-         }
-      });
-  }
+  // Función para buscar un personaje por ID y actualizar el estado
+  const onSearch = async (characterId) => {
+    try {
+      const response = await fetch(`http://localhost:3006/rickandmorty/onsearch/${characterId}`);
+      if (!response.ok) throw new Error("No se encontró el personaje");
+      const character = await response.json();
+
+      // Evitar personajes duplicados
+      if (characters.find((char) => char.id === character.id)) {
+        alert("El personaje ya fue agregado");
+        return;
+      }
+      setCharacters((prevChars) => [...prevChars, character]);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+
+  // Función para limpiar el estado de los personajes
+  const clearCharacters = () => {
+    setCharacters([]);
+  };
+
 
   // REACT - ESTADOS DE LOS COMPONENTES --> Para cambiar o manejar los estados de los componentes
   const onClose = (id) => {
     setCharacters(characters.filter(char => char.id!== id))
   }
 
+
   // Se ejecuta cada vez que se monta el componente
   // Si acces esta en false me manda a / -- Al login
   useEffect(() => {
-    !access && navigate('/');
-  }, [access, navigate]);
+    // Si no hay acceso, redirigir al login
+    if (!access) {
+      navigate('/');
+  } else if (!favoritesCleared) {
+      // Ejecutar la petición solo si no se ha limpiado aún
+      fetch('http://localhost:3006/rickandmorty/deleteFavorites')
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Error al borrar el archivo de favoritos');
+              }
+              return response.json();
+          })
+          .then(data => {
+              console.log(data.message); // Mensaje de confirmación
+              setFavoritesCleared(true); // Marcar como limpiado
+          })
+          .catch(error => {
+              console.error('Error:', error); // Manejo de errores
+          });
+  }
+}, [access, navigate, favoritesCleared]);
   
   return (
     <div className='App' style={{ padding: '10px' }}>
       {/* Si la locacion no es / me muestra navbar */}
-      {location.pathname !== '/' && <Navbar onSearch={onSearch}/>}
+      {location.pathname !== '/' && <Navbar onSearch={onSearch} onLogOut={clearCharacters}/>}
       <Routes>
         {/* exact --> Cuando es solo barra */}
         {/* <Route exact path='/' element={<Form login={login}/>}/> */}

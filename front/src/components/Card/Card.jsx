@@ -35,7 +35,7 @@ export function Card(props) {
       else{
          setIsFav(true);
          const character = {
-            //key: props.id,
+            key: props.id,
             id: props.id,
             name: props.name,
             status: props.status,
